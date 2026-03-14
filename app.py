@@ -68,8 +68,8 @@ def show_task_details(task_id, project_stages, all_users_list):
         
         with tab_info:
             c_info1, c_info2 = st.columns(2)
-            c_info1.markdown(f"**👤 Atribuído a:** {person}")
-            c_info2.markdown(f"**🏢 Equipa:** {team}")
+            c_info1.markdown(f"**👤 Criado por:** {person}")
+            c_info2.markdown(f" {team}")
             curr_date_obj = datetime.strptime(due_date, '%Y-%m-%d').date()
             st.markdown(f"**📅 Previsão:** {curr_date_obj.strftime('%d/%m/%Y')}")
             
