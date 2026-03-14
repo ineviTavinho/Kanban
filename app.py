@@ -69,7 +69,7 @@ def show_task_details(task_id, project_stages, all_users_list):
         with tab_info:
             c_info1, c_info2 = st.columns(2)
             c_info1.markdown(f"**👤 Criado por:** {person}")
-            c_info2.markdown(f" {team}")
+            c_info2.markdown(f" ** Equipe: {team}")
             curr_date_obj = datetime.strptime(due_date, '%Y-%m-%d').date()
             st.markdown(f"**📅 Previsão:** {curr_date_obj.strftime('%d/%m/%Y')}")
             
@@ -283,7 +283,7 @@ if selected_project_id:
                 # ==========================================
                 for team, team_tasks in grouped_tasks.items():
                     # O expander_title exibe o nome da equipa e a quantidade de tarefas!
-                    expander_title = f"🏢 {team} ({len(team_tasks)} tarefas)"
+                    expander_title = f"{team} ({len(team_tasks)} tarefas)"
                     
                     with st.expander(expander_title, expanded=True):
                         for t in team_tasks:
