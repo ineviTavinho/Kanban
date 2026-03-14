@@ -56,7 +56,7 @@ def render_login_screen():
     st.markdown("<h1 style='text-align: center; color: #4F8BF9;'>Quem está acessando?</h1>", unsafe_allow_html=True)
     st.write("<br><br>", unsafe_allow_html=True)
 
-    # 2. ECRÃ DE REGISTO (NOVA CONTA)
+    # 2. Tela DE REGISTO (NOVA CONTA)
     if st.session_state.creating_account:
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
@@ -64,7 +64,7 @@ def render_login_screen():
                 st.subheader("Criar Novo Perfil")
                 with st.form("register_form"):
                     new_user = st.text_input("Nome de Utilizador")
-                    new_pass = st.text_input("Palavra-passe", type="password")
+                    new_pass = st.text_input("Senha", type="password")
                     new_role = st.selectbox("Cargo / Equipa", ["Engenharia/Dev", "Frontend", "Backend", "Design", "Negócios", "Infraestrutura", "Administrador"])
                     submit_reg = st.form_submit_button("Criar Conta", type="primary", use_container_width=True)
                     
@@ -84,7 +84,7 @@ def render_login_screen():
                 st.session_state.creating_account = False
                 st.rerun()
 
-    # 3. ECRÃ DA PALAVRA-PASSE (PERFIL SELECIONADO)
+    # 3. Senha (PERFIL SELECIONADO)
     elif st.session_state.selecting_user:
         user_name = st.session_state.selecting_user
         user_data = db.get_user(user_name)
@@ -112,7 +112,7 @@ def render_login_screen():
                         else:
                             st.error("Senha incorreta!")
 
-    # 4. GRELHA DE PERFIS (ECRÃ PRINCIPAL)
+    # 4. GRELHA DE PERFIS (Tela PRINCIPAL)
     else:
         # Vai buscar todos ao Supabase
         users = db.get_all_users()
