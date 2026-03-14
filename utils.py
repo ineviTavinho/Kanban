@@ -1,6 +1,8 @@
 import os
 import base64
 from datetime import date, datetime
+import streamlit as st
+import requests
 
 TAGS_CONFIG = {
     "🔴 Urgente": "#FF4B4B",
@@ -12,19 +14,33 @@ TAGS_CONFIG = {
 
 def save_uploaded_file(uploaded_file):
     if uploaded_file is not None:
-        if not os.path.exists("uploads"):
-            os.makedirs("uploads")
-            
-        ts = datetime.now().strftime("%Y%m%d%H%M%S_")
-        safe_name = ts + uploaded_file.name
-        file_path = os.path.join("uploads", safe_name)
+        api_url = st.secrets.get("SUPABASE_API_URL")
+        api_key = st.secrets.get("SUPABASE_KEY")
         
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        return file_path
+        # Cria um nome único com a data para não sobrepor ficheiros com o mesmo nome
+        ts = datetime.now().strftime("%Y%m%d%H%M%S_")
+        safe_name = ts + uploaded_file.name.replace(" ", "_")
+        
+        # Endpoint do Supabase Storage
+        endpoint = f"{api_url}/storage/v1/object/kanban/{safe_name}"
+        
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "apikey": api_key,
+            "Content-Type": uploaded_file.type
+        }
+        
+        # Envia o ficheiro para o "balde" da nuvem
+        response = requests.post(endpoint, headers=headers, data=uploaded_file.getvalue())
+        
+        if response.status_code == 200:
+            # Retorna o link público e definitivo da imagem!
+            return f"{api_url}/storage/v1/object/public/kanban/{safe_name}"
+        else:
+            st.error("Erro ao salvar ficheiro na nuvem do Supabase.")
+            return None
     return None
 
-# >>> NOVA FUNÇÃO PARA RENDERIZAR IMAGENS LOCAIS NO BROWSER <<<
 def get_image_base64(image_path):
     if image_path and os.path.exists(image_path):
         try:
