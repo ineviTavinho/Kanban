@@ -245,7 +245,7 @@ if selected_project_id:
         col_filter, col_add_stage, col_reorder = st.columns([3, 1, 1]) 
         
         with col_filter:
-            selected_teams_filter = st.multiselect("🔍 Filtrar por Equipa:", ["Frontend", "Backend", "Design", "Banco de Dados", "Negócios", "Infraestrutura"], placeholder="Selecione as equipas (vazio mostra todas)")
+            selected_teams_filter = st.multiselect("🔍 Filtrar por Equipe:", ["Frontend", "Backend", "Design", "Banco de Dados", "Negócios", "Infraestrutura"], placeholder="Selecione as equipas (vazio mostra todas)")
             
         with col_add_stage:
             st.write("<br>", unsafe_allow_html=True) 
