@@ -213,7 +213,7 @@ if selected_project_id:
     st.title(f" {selected_project_name}")
     st.write("<br>", unsafe_allow_html=True)
 
-    tab_kanban, tab_metrics, tab_chat = st.tabs(["📋 Quadro Kanban", "📊 Dashboards", "💬 Chat do Projeto"])
+    tab_kanban, tab_metrics, tab_chat = st.tabs(["Kanban", "Dashboards", " Chat do Projeto"])
 
     # ==========================================
     # ABA 1: KANBAN
