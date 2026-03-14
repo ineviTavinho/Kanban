@@ -97,7 +97,7 @@ def render_login_screen():
             st.write("<br>", unsafe_allow_html=True)
             
             with st.form("login_form"):
-                senha = st.text_input("Digite sua senha", type="password", autofocus=True)
+                senha = st.text_input("Digite sua senha", type="password")
                 st.write("<br>", unsafe_allow_html=True)
                 col_btn1, col_btn2 = st.columns(2)
                 
