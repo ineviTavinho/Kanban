@@ -5,16 +5,11 @@ import streamlit as st
 
 def get_connection():
     try:
-        # Usamos st.secrets para pegar a URL que você colou no painel
-        conn = psycopg2.connect(
-            st.secrets["SUPABASE_URL"],
-            connect_timeout=10,
-            sslmode='require'
-        )
-        return conn
+        # Apenas pega o link (que agora já tem o sslmode e pgbouncer embutidos)
+        url = st.secrets["SUPABASE_URL"]
+        return psycopg2.connect(url)
     except Exception as e:
-        # Isso vai imprimir o erro real na tela do Streamlit para podermos depurar
-        st.error(f"Erro detalhado: {e}")
+        st.error(f"🔴 Erro crítico de conexão com a Nuvem: {e}")
         raise e
 
 def init_db():
