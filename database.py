@@ -4,7 +4,18 @@ from datetime import date, datetime, timedelta
 import streamlit as st
 
 def get_connection():
-    return psycopg2.connect(st.secrets["SUPABASE_URL"])
+    try:
+        # Usamos st.secrets para pegar a URL que você colou no painel
+        conn = psycopg2.connect(
+            st.secrets["SUPABASE_URL"],
+            connect_timeout=10,
+            sslmode='require'
+        )
+        return conn
+    except Exception as e:
+        # Isso vai imprimir o erro real na tela do Streamlit para podermos depurar
+        st.error(f"Erro detalhado: {e}")
+        raise e
 
 def init_db():
     conn = get_connection()
@@ -70,27 +81,6 @@ def get_all_users():
     data = c.fetchall()
     conn.close()
     return data
-
-def get_connection():
-    # Pegamos a URL do segredo
-    url = st.secrets["SUPABASE_URL"]
-    
-    # Se a URL contiver opções de query (como ?sslmode=...), 
-    # o psycopg2 às vezes se confunde na nuvem. 
-    # Vamos garantir que ele use sslmode='require' explicitamente.
-    try:
-        return psycopg2.connect(
-            url,
-            sslmode='require',
-            connect_timeout=10,
-            keepalives=1,
-            keepalives_idle=30,
-            keepalives_interval=10,
-            keepalives_count=5
-        )
-    except Exception as e:
-        st.error(f"Erro ao conectar ao banco de dados: {e}")
-        raise e
 
 def update_user_avatar(username, new_avatar_url):
     conn = get_connection()
