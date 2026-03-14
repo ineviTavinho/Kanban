@@ -61,7 +61,7 @@ def render_login_screen():
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             with st.container(border=True):
-                st.subheader("➕ Criar Novo Perfil")
+                st.subheader("Criar Novo Perfil")
                 with st.form("register_form"):
                     new_user = st.text_input("Nome de Utilizador")
                     new_pass = st.text_input("Palavra-passe", type="password")
@@ -80,7 +80,7 @@ def render_login_screen():
                         else:
                             st.error("Por favor, preencha todos os campos.")
             
-            if st.button("⬅️ Voltar aos perfis", use_container_width=True):
+            if st.button("Voltar aos perfis", use_container_width=True):
                 st.session_state.creating_account = False
                 st.rerun()
 
@@ -102,11 +102,11 @@ def render_login_screen():
                 col_btn1, col_btn2 = st.columns(2)
                 
                 with col_btn1:
-                    if st.form_submit_button("⬅️ Voltar", use_container_width=True):
+                    if st.form_submit_button("Voltar", use_container_width=True):
                         st.session_state.selecting_user = None
                         st.rerun()
                 with col_btn2:
-                    if st.form_submit_button("Entrar ➡️", use_container_width=True):
+                    if st.form_submit_button("Entrar", use_container_width=True):
                         if login(user_name, senha):
                             st.rerun()
                         else:
