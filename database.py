@@ -71,6 +71,15 @@ def get_all_users():
     conn.close()
     return data
 
+def get_connection():
+    # Adicionamos sslmode=require (necessário para conexões em nuvem)
+    # e um timeout maior
+    return psycopg2.connect(
+        st.secrets["SUPABASE_URL"], 
+        sslmode='require', 
+        connect_timeout=10
+    )
+
 def update_user_avatar(username, new_avatar_url):
     conn = get_connection()
     c = conn.cursor()
