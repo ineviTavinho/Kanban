@@ -72,13 +72,25 @@ def get_all_users():
     return data
 
 def get_connection():
-    # Adicionamos sslmode=require (necessário para conexões em nuvem)
-    # e um timeout maior
-    return psycopg2.connect(
-        st.secrets["SUPABASE_URL"], 
-        sslmode='require', 
-        connect_timeout=10
-    )
+    # Pegamos a URL do segredo
+    url = st.secrets["SUPABASE_URL"]
+    
+    # Se a URL contiver opções de query (como ?sslmode=...), 
+    # o psycopg2 às vezes se confunde na nuvem. 
+    # Vamos garantir que ele use sslmode='require' explicitamente.
+    try:
+        return psycopg2.connect(
+            url,
+            sslmode='require',
+            connect_timeout=10,
+            keepalives=1,
+            keepalives_idle=30,
+            keepalives_interval=10,
+            keepalives_count=5
+        )
+    except Exception as e:
+        st.error(f"Erro ao conectar ao banco de dados: {e}")
+        raise e
 
 def update_user_avatar(username, new_avatar_url):
     conn = get_connection()
